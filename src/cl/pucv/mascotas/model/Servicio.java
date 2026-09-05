@@ -11,11 +11,11 @@ public abstract class  Servicio {
     private LocalDate fecha;
     //private Date fecha;
 
-    public Servicio(int codigo, String tipo, String descripcion, double precio, LocalDate fecha){
+    public Servicio(int codigo, String tipo, String descripcion, double costo, LocalDate fecha){
         this.codigo = codigo;
         this.tipo = tipo;
         this.descripcion = descripcion;
-        costo = precio;
+        this.costo = costo;
         this.fecha = fecha;
     }
 
