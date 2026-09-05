@@ -1,5 +1,9 @@
 package cl.pucv.mascotas.ui;
 
-public class InterfazUsuario {
+public interface InterfazUsuario {
     
+    public void iniciar();
+    public void mostrarMenu();
+    public void finalizar();
+
 }
