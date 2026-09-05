@@ -4,7 +4,10 @@ import cl.pucv.mascotas.facade.SistemaFacade;
 //import cl.pucv.mascotas.ui.*;
 import java.util.Scanner;
 
-
+/*
+Funcion u objetivo: pedirle al usuario que elija el modo en el que se usara este programa
+Terminal o interfaz Grafica.
+*/
 public class Eleccion {
     
     private InterfazUsuario interfaz; 
@@ -23,7 +26,7 @@ public class Eleccion {
         System.out.println("2. Modo Ventana (interfaz).");
         System.out.println("Ingrese opcion (1 o 2): ");
 
-        int opcion = 1;
+        int opcion = 1; 
 
         try{
             opcion = Integer.parseInt(eleccion.nextLine());
