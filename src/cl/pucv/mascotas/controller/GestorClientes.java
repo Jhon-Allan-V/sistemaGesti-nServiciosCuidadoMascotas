@@ -23,9 +23,9 @@ public class GestorClientes
         clientes.remove(rut);
     }
     
-    public boolean estaCliente(String rut)
+    public boolean existeCliente(String rut)
     {
-        return clientes.containskey(rut);
+        return clientes.containsKey(rut);
     }
     
     public Cliente obtenerCliente(String rut)

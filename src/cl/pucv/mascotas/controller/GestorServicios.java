@@ -38,8 +38,8 @@ public class GestorServicios
     
     public void reservarServicio(String rutCliente, String IdMascota, int codigoServicio)
     {
-        if(servicios.containsKey(codigoServicio))
-        {
+        if(servicios.containsKey(codigoServicio)){
+
             int idReserva = generarIdReserva();
             
             Reserva nueva = new Reserva();
@@ -47,11 +47,15 @@ public class GestorServicios
             nueva.setIdReserva(idReserva);
             nueva.setRutCliente(rutCliente);
             nueva.setIdMascota(IdMascota);
-            nueva.setCodigoSservicio(codigoServicio);
+            nueva.setCodigoServicio(codigoServicio);
             nueva.setFechaReserva(LocalDate.now());
             nueva.setEstado("ACTIVA");
             
             reservas.put(idReserva, nueva); 
+
+            System.out.println("Reserva #" + idReserva + " agendada con exito.");
+        } else {
+            System.out.println("Error: El codigo de servicio " + codigoServicio + " no existe.");
         }
     }
     
