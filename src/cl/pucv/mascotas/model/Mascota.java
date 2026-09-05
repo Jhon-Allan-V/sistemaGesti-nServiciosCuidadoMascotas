@@ -1,5 +1,7 @@
 package cl.pucv.mascotas.model;
 
+import cl.pucv.mascotas.model.Mascota;
+
 public class Mascota {
     
     private String id;

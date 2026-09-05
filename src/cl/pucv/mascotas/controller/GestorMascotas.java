@@ -1,61 +1,109 @@
 package cl.pucv.mascotas.controller;
 
+import cl.pucv.mascotas.model.Cliente;
 import cl.pucv.mascotas.model.Mascota;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class GestorMascotas 
+public class GestorMascotas
 {
-    private Map<String, Mascota> mascotas;
+    private GestorClientes gestorClientes;
     private int ID;
     
-    public GestorMascotas()
+    public GestorMascotas(GestorClientes gestorClientes)
     {
-        mascotas = new HashMap<>();
+        this.gestorClientes = gestorClientes;
         ID = 1; 
     }
     
     public void agregarMascota(String rutDueno, String nombre, String raza, int edad, float peso, float altura)
     {
+        Cliente cliente = gestorClientes.obtenerCliente(rutDueno);
+        
+        if(cliente == null) {return;}
+        
         String id = generarId(); 
         
         Mascota nueva = new Mascota(id, rutDueno, nombre, raza, edad, peso, altura);
         
-        mascotas.put(id, nueva);
+        cliente.agregarMascota(nueva);
     }
     
     public void agregarMascota(String rutDueno, String nombre, String raza, int edad, float peso, float altura, String tratoEspecial)
     {
+        Cliente cliente = gestorClientes.obtenerCliente(rutDueno);
+        
+        if(cliente == null) {return;}
+        
         String id = generarId(); 
         
         Mascota nueva = new Mascota(id, rutDueno, nombre, raza, edad, peso, altura, tratoEspecial);
         
-        mascotas.put(id, nueva);
+        cliente.agregarMascota(nueva);
     }
     
-    public List<Mascota> obtenerPorCliente(String rutCliente)
+    public Mascota obtenerMascota(String rutDueno, String id)
     {
-        List<Mascota> mascotasCliente = new ArrayList<>();
+        Cliente cliente = gestorClientes.obtenerCliente(rutDueno);
         
-        for(Mascota mascota : mascotas.values())
-        {
-            if(mascota.getRutDueno().equals(rutCliente))
-            {
-                mascotasCliente.add(mascota); 
-            }
+        if(cliente == null) {return null;}
+        
+        return cliente.obtenerMascota(id);
+    }
+    
+     public List<Mascota> obtenerPorCliente(String rutCliente)
+    {
+        Cliente cliente = gestorClientes.obtenerCliente(rutCliente);
+        
+        if(cliente == null) {
+            return new ArrayList<>();
         }
         
-        return mascotasCliente; 
+        return (List<Mascota>) cliente.listarMascotas();
+    }
+     
+    public List<Mascota> listarMascotas()
+    {
+        List<Mascota> todas = new ArrayList<>();
+        
+        for(Cliente cliente : gestorClientes.listarClientes())
+        {
+            todas.addAll(cliente.listarMascotas());
+        }
+        
+        return todas;
+    }
+    
+    public void modificarMascota(String rutCliente, String id, String nombre, String raza, int edad, float peso, float altura, String tratoEspecial)
+    {
+        Mascota mascota = obtenerMascota(rutCliente, id);
+        
+        if(mascota != null)
+        {
+            mascota.setNombre(nombre);
+            mascota.setRaza(raza);
+            mascota.setEdad(edad);
+            mascota.setPeso(peso);
+            mascota.setAltura(altura);
+            mascota.setTratoEspecial(tratoEspecial);
+        }
+    }
+    
+    public void eliminarMascota(String rutCliente, String id)
+    {
+        Cliente cliente = gestorClientes.obtenerCliente(rutCliente);
+        
+        if(cliente != null)
+        {
+            cliente.eliminarMascota(id);
+        }
     }
     
     private String generarId()
     {
         String id = "M" + ID;
-        ID ++; 
+        ID++; 
         
         return id;
     }
-    
 }
