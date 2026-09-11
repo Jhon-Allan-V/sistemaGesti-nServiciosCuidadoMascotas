@@ -88,7 +88,7 @@ public class SistemaFacade
         return gestorMascotas.obtenerPorCliente(rutCliente);
     }
     
-    public void modificarMascosta(String rutCliente, String id, String nombre, String raza, int edad, float peso, float altura, String tratoEspecial)
+    public void modificarMascota(String rutCliente, String id, String nombre, String raza, int edad, float peso, float altura, String tratoEspecial)
     {
         gestorMascotas.modificarMascota(rutCliente, id, nombre, raza, edad, peso, altura, tratoEspecial);
     }

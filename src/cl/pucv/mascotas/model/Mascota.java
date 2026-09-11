@@ -52,4 +52,16 @@ public class Mascota {
     public void setPeso(float peso){this.peso = peso;}
     public void setAltura(float altura){this.altura = altura;}
     public void setTratoEspecial(String tratoEspecial){this.tratoEspecial = tratoEspecial;}
+
+    @Override
+    public String toString() {
+        return "ID: " + id +
+            " | Dueño: " + rutDueno +
+            " | Nombre: " + nombre +
+            " | Raza: " + raza +
+            " | Edad: " + edad +
+            " | Peso: " + peso +
+            " | Altura: " + altura +
+            " | Trato especial: " + tratoEspecial;
+    }
 }

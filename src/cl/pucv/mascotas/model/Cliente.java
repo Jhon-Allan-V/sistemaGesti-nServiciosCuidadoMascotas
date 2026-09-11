@@ -85,12 +85,17 @@ public class Cliente {
     {
         return mascotas.get(id);
     }
-    public List<Mascota> listarMascota()
-    {
-        return new ArrayList<>(mascotas.values()); 
+
+    public List<Mascota> listarMascotas() {
+        return new ArrayList<>(mascotas.values());
     }
 
-    public Collection<? extends Mascota> listarMascotas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    @Override
+    public String toString() {
+        return "RUT: " + rut +
+            " | Nombre: " + nombre +
+            " | Correo: " + correo +
+            " | Teléfono: " + telefono +
+            " | Dirección: " + direccion;
     }
 }
