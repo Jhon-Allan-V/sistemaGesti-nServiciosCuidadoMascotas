@@ -2,15 +2,15 @@ package cl.pucv.mascotas.model;
 
 import java.time.LocalDate;
 
-public class Peluqueria extends Servicio{
+public class Peluqueria extends Servicio {
 
     private String tipoCorte;
     private int duracionCorte;
-    
+
     public Peluqueria(
-        int codigo, String tipo, String descripcion, 
-        double costo, LocalDate fecha, String tipoCorte, 
-        int duracionCorte){
+            int codigo, String tipo, String descripcion,
+            double costo, LocalDate fecha, String tipoCorte,
+            int duracionCorte) {
 
         super(codigo, tipo, descripcion, costo, fecha);
         this.tipoCorte = tipoCorte;
@@ -22,6 +22,25 @@ public class Peluqueria extends Servicio{
         return 0;
     }
 
-    public void realizarCorte(){}
-    public void lavarMascota(){}
+    public void realizarCorte() {
+    }
+
+    public void lavarMascota() {
+    }
+
+    public String getTipoCorte() {
+        return tipoCorte;
+    }
+
+    public int getDuracionCorte() {
+        return duracionCorte;
+    }
+
+    public void setTipoCorte(String tipoCorte) {
+        this.tipoCorte = tipoCorte;
+    }
+
+    public void setDuracionCorte(int duracionCorte) {
+        this.duracionCorte = duracionCorte;
+    }
 }
