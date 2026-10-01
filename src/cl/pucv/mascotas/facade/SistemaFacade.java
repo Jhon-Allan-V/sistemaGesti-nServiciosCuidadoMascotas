@@ -11,6 +11,11 @@ import cl.pucv.mascotas.model.Peluqueria;
 import cl.pucv.mascotas.model.Veterinaria;
 import cl.pucv.mascotas.model.Reserva;
 
+import cl.pucv.mascotas.repository.RepositorioClienteCSV;
+import cl.pucv.mascotas.repository.RepositorioMascotaCSV;
+import cl.pucv.mascotas.repository.RepositorioServicioCSV;
+import cl.pucv.mascotas.exception.PersistenciaException;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,6 +25,10 @@ public class SistemaFacade
     private GestorClientes gestorClientes;
     private GestorMascotas gestorMascotas;
     private GestorServicios gestorServicios;
+
+    private RepositorioClienteCSV repositorioClientes;
+    private RepositorioMascotaCSV repositorioMascotas;
+    private RepositorioServicioCSV repositorioServicios;
     
     public SistemaFacade()
     {
@@ -27,7 +36,65 @@ public class SistemaFacade
         gestorMascotas = new GestorMascotas(gestorClientes);
         gestorServicios = new GestorServicios();
 
-        cargarDatosIniciales();
+        repositorioClientes = new RepositorioClienteCSV();
+        repositorioMascotas = new RepositorioMascotaCSV();
+        repositorioServicios = new RepositorioServicioCSV();
+
+        boolean seCargaronDatosGuardados = cargarDatosDesdeArchivos();
+
+        if (!seCargaronDatosGuardados)
+        {
+            cargarDatosIniciales();
+        }
+    }
+
+    // SIA-11: persistencia batch - carga los datos guardados en los archivos CSV
+    // (si existen) al arrancar la aplicacion. Devuelve false si no habia nada
+    // guardado todavia, para que en ese caso se usen los datos iniciales de ejemplo.
+    private boolean cargarDatosDesdeArchivos()
+    {
+        try
+        {
+            List<Cliente> clientesGuardados = repositorioClientes.listarTodos();
+            List<Mascota> mascotasGuardadas = repositorioMascotas.listarTodos();
+            List<Servicio> serviciosGuardados = repositorioServicios.listarTodos();
+            List<Reserva> reservasGuardadas = repositorioServicios.listarReservas();
+
+            if (clientesGuardados.isEmpty() && serviciosGuardados.isEmpty())
+            {
+                return false;
+            }
+
+            gestorClientes.cargarClientes(clientesGuardados);
+            gestorMascotas.cargarMascotas(mascotasGuardadas);
+            gestorServicios.cargarServicios(serviciosGuardados);
+            gestorServicios.cargarReservas(reservasGuardadas);
+
+            return true;
+
+        }
+        catch (PersistenciaException e)
+        {
+            System.out.println("No se pudieron cargar los datos guardados (" + e.getMessage() + "). Se usaran datos iniciales de ejemplo.");
+            return false;
+        }
+    }
+
+    // SIA-11: persistencia batch - guarda el estado completo del sistema en los
+    // archivos CSV. Se debe llamar al cerrar la aplicacion (en ambas interfaces).
+    public void guardarDatosEnArchivos()
+    {
+        try
+        {
+            repositorioClientes.guardarTodos(listarClientes());
+            repositorioMascotas.guardarTodos(listarMascotas());
+            repositorioServicios.guardarTodos(listarServicios());
+            repositorioServicios.guardarReservas(listarReservas());
+        }
+        catch (PersistenciaException e)
+        {
+            System.out.println("No se pudieron guardar los datos: " + e.getMessage());
+        }
     }
 
     private void cargarDatosIniciales()
