@@ -3,12 +3,13 @@ package cl.pucv.mascotas.ui;
 import cl.pucv.mascotas.facade.SistemaFacade;
 import cl.pucv.mascotas.model.Cliente;
 import cl.pucv.mascotas.model.Mascota;
+import cl.pucv.mascotas.model.Servicio;
+import cl.pucv.mascotas.model.Reserva;
 import java.util.List;
 import java.util.Scanner;
 
-/*
-Funcion u objetivo: gestionar la consola o terminal en el que el usuario usara el programa
-*/
+//Funcion u objetivo: gestionar la consola o terminal en el que el usuario usara el programa
+
 
 public class ConsolaTerminal implements InterfazUsuario{
 
@@ -301,18 +302,89 @@ public class ConsolaTerminal implements InterfazUsuario{
 
         while(!volver){
             System.out.println("\n--- RESERVAS DE SERVICIOS ---");
-            System.out.println("1. Reservar servicio");
-            System.out.println("2. Cancelar reserva");
+            System.out.println("1. Registrar servicio de Peluqueria");
+            System.out.println("2. Registrar servicio de Veterinaria");
+            System.out.println("3. Listar servicios");
+            System.out.println("4. Reservar servicio");
+            System.out.println("5. Cancelar reserva");
+            System.out.println("6. Listar reservas");
             System.out.println("0. Volver");
 
             int opcion = leerEntero("Ingrese opcion: ");
 
             switch(opcion){
-                case 1: reservarServicio(); break;
-                case 2: cancelarReserva(); break;
+                case 1: registrarServicioPeluqueria(); break;
+                case 2: registrarServicioVeterinaria(); break;
+                case 3: listarServicios(); break;
+                case 4: reservarServicio(); break;
+                case 5: cancelarReserva(); break;
+                case 6: listarReservas(); break;
                 case 0: volver = true; break;
                 default: System.out.println("Opcion invalida.");
             }
+        }
+    }
+
+    private void registrarServicioPeluqueria(){
+        int codigo = leerEntero("Codigo del servicio: ");
+
+        if(sistema.existeServicio(codigo)){
+            System.out.println("Ya existe un servicio con ese codigo.");
+            return;
+        }
+
+        String descripcion = leerTexto("Descripcion: ");
+        float costo = leerFloat("Costo: ");
+        String tipoCorte = leerTexto("Tipo de corte: ");
+        int duracionCorte = leerEntero("Duracion del corte (minutos): ");
+
+        sistema.registrarServicioPeluqueria(codigo, descripcion, costo, tipoCorte, duracionCorte);
+        System.out.println("Servicio de peluqueria registrado con exito.");
+    }
+
+    private void registrarServicioVeterinaria(){
+        int codigo = leerEntero("Codigo del servicio: ");
+
+        if(sistema.existeServicio(codigo)){
+            System.out.println("Ya existe un servicio con ese codigo.");
+            return;
+        }
+
+        String descripcion = leerTexto("Descripcion: ");
+        float costo = leerFloat("Costo: ");
+        String nombreVeterinario = leerTexto("Nombre del veterinario: ");
+        String especialidad = leerTexto("Especialidad: ");
+        String licencia = leerTexto("Licencia: ");
+
+        sistema.registrarServicioVeterinaria(codigo, descripcion, costo, nombreVeterinario, especialidad, licencia);
+        System.out.println("Servicio de veterinaria registrado con exito.");
+    }
+
+    private void listarServicios(){
+        List<Servicio> servicios = sistema.listarServicios();
+
+        if(servicios.isEmpty()){
+            System.out.println("No hay servicios registrados.");
+            return;
+        }
+
+        System.out.println("\n--- Listado de servicios ---");
+        for(Servicio s : servicios){
+            System.out.println(s);
+        }
+    }
+
+    private void listarReservas(){
+        List<Reserva> reservas = sistema.listarReservas();
+
+        if(reservas.isEmpty()){
+            System.out.println("No hay reservas registradas.");
+            return;
+        }
+
+        System.out.println("\n--- Listado de reservas ---");
+        for(Reserva r : reservas){
+            System.out.println(r);
         }
     }
 
