@@ -52,4 +52,13 @@ public class GestorClientes
             cliente.setDireccion(direccion);
         }
     }
+
+    // SIA-11: carga en bloque (batch) de clientes leidos desde el archivo CSV al iniciar la aplicacion.
+    public void cargarClientes(List<Cliente> listaClientes)
+    {
+        for (Cliente cliente : listaClientes)
+        {
+            clientes.put(cliente.getRutCliente(), cliente);
+        }
+    }
 }
