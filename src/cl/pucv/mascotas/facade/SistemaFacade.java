@@ -15,6 +15,7 @@ import cl.pucv.mascotas.repository.RepositorioClienteCSV;
 import cl.pucv.mascotas.repository.RepositorioMascotaCSV;
 import cl.pucv.mascotas.repository.RepositorioServicioCSV;
 import cl.pucv.mascotas.exception.PersistenciaException;
+import cl.pucv.mascotas.exception.ClienteNoEncontradoException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -119,9 +120,18 @@ public class SistemaFacade
         gestorClientes.agregarCliente(nuevo); 
     }
     
-    public Cliente buscarCliente(String rut) 
+    public Cliente buscarCliente(String rut) throws ClienteNoEncontradoException
     {
-        return gestorClientes.obtenerCliente(rut);
+        Cliente cliente = gestorClientes.obtenerCliente(rut);
+
+        if (cliente == null)
+        {
+            throw new ClienteNoEncontradoException(
+                "No existe un cliente con el RUT " + rut
+            );
+        }
+
+        return cliente;
     }
     
     public List<Cliente> listarClientes()

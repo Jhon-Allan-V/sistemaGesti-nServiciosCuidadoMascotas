@@ -8,6 +8,7 @@ import cl.pucv.mascotas.model.Reserva;
 import java.util.List;
 import java.util.Scanner;
 
+import cl.pucv.mascotas.exception.ClienteNoEncontradoException;
 //Funcion u objetivo: gestionar la consola o terminal en el que el usuario usara el programa
 
 
@@ -129,19 +130,23 @@ public class ConsolaTerminal implements InterfazUsuario{
         }
     }
 
-    private void buscarCliente(){
+    private void buscarCliente()
+    {
         String rut = leerTexto("RUT a buscar: ");
-        Cliente cliente = sistema.buscarCliente(rut);
 
-        if(cliente == null){
-            System.out.println("No se encontro un cliente con ese RUT.");
-            return;
+        try
+        {
+            Cliente cliente = sistema.buscarCliente(rut);
+
+            System.out.println("Nombre: " + cliente.getNombreCliente());
+            System.out.println("Correo: " + valorOVacio(cliente.getCorreoCliente()));
+            System.out.println("Telefono: " + valorOVacio(cliente.getTelefono()));
+            System.out.println("Direccion: " + valorOVacio(cliente.getDireccion()));
         }
-
-        System.out.println("Nombre: " + cliente.getNombreCliente());
-        System.out.println("Correo: " + valorOVacio(cliente.getCorreoCliente()));
-        System.out.println("Telefono: " + valorOVacio(cliente.getTelefono()));
-        System.out.println("Direccion: " + valorOVacio(cliente.getDireccion()));
+        catch (ClienteNoEncontradoException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void modificarCliente(){

@@ -7,6 +7,8 @@ import cl.pucv.mascotas.model.Mascota;
 import javax.swing.*;
 import java.awt.*;
 
+import cl.pucv.mascotas.exception.ClienteNoEncontradoException;
+
 /*
 Funcion u objetivo: gestionar la pantalla grafica en el que el usuario usara el programa
 */
@@ -188,16 +190,6 @@ public class PantallaInterfaz implements InterfazUsuario{
         try {
             Cliente cliente = sistema.buscarCliente(rut);
 
-            if (cliente == null) {
-                JOptionPane.showMessageDialog(
-                    ventana,
-                    "No se encontró un cliente con ese RUT.",
-                    "Cliente no encontrado",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-                return;
-            }
-
             JOptionPane.showMessageDialog(
                 ventana,
                 cliente.toString(),
@@ -205,12 +197,12 @@ public class PantallaInterfaz implements InterfazUsuario{
                 JOptionPane.INFORMATION_MESSAGE
             );
 
-        } catch (Exception ex) {
+        } catch (ClienteNoEncontradoException ex) {
             JOptionPane.showMessageDialog(
                 ventana,
-                "Error al buscar el cliente: " + ex.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
+                ex.getMessage(),
+                "Cliente no encontrado",
+                JOptionPane.WARNING_MESSAGE
             );
         }
     }
@@ -228,15 +220,6 @@ public class PantallaInterfaz implements InterfazUsuario{
         try {
             Cliente cliente = sistema.buscarCliente(rut);
 
-            if (cliente == null) {
-                JOptionPane.showMessageDialog(
-                    ventana,
-                    "No se encontró un cliente con ese RUT.",
-                    "Cliente no encontrado",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-                return;
-            }
 
             String nombre = JOptionPane.showInputDialog(
                 ventana,
@@ -283,12 +266,12 @@ public class PantallaInterfaz implements InterfazUsuario{
                 "Cliente modificado correctamente."
             );
 
-        } catch (Exception ex) {
+        } catch (ClienteNoEncontradoException ex) {
             JOptionPane.showMessageDialog(
                 ventana,
-                "No se pudo modificar el cliente: " + ex.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
+                ex.getMessage(),
+                "Cliente no encontrado",
+                JOptionPane.WARNING_MESSAGE
             );
         }
     }
@@ -306,15 +289,6 @@ public class PantallaInterfaz implements InterfazUsuario{
         try {
             Cliente cliente = sistema.buscarCliente(rut);
 
-            if (cliente == null) {
-                JOptionPane.showMessageDialog(
-                    ventana,
-                    "No se encontró un cliente con ese RUT.",
-                    "Cliente no encontrado",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-                return;
-            }
 
             int confirmacion = JOptionPane.showConfirmDialog(
                 ventana,
@@ -334,12 +308,12 @@ public class PantallaInterfaz implements InterfazUsuario{
                 "Cliente eliminado correctamente."
             );
 
-        } catch (Exception ex) {
+        } catch (ClienteNoEncontradoException ex) {
             JOptionPane.showMessageDialog(
                 ventana,
-                "No se pudo eliminar el cliente: " + ex.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
+                ex.getMessage(),
+                "Cliente no encontrado",
+                JOptionPane.WARNING_MESSAGE
             );
         }
     }
