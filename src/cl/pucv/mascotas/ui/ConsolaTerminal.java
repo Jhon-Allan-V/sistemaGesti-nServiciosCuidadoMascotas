@@ -59,6 +59,7 @@ public class ConsolaTerminal implements InterfazUsuario{
     @Override
     public void finalizar(){
         activo = false;
+        sistema.guardarDatosEnArchivos();
         System.out.println("Cerrando el sistema. Hasta pronto!");
     }
 
