@@ -30,8 +30,15 @@ public class PantallaInterfaz implements InterfazUsuario{
         ventana = new JFrame("Sistema de Gestión de Mascotas");
 
         ventana.setSize(500, 400);
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         ventana.setLocationRelativeTo(null);
+
+        ventana.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                finalizar();
+            }
+        });
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1, 10, 10));
@@ -49,6 +56,7 @@ public class PantallaInterfaz implements InterfazUsuario{
         botonClientes.addActionListener(e -> ventanaClientes());
         botonMascotas.addActionListener(e -> ventanaMascotas());
         botonServicios.addActionListener(e -> ventanaServicios());
+        botonSalir.addActionListener(e -> finalizar());
         
 
         panel.add(titulo);
@@ -918,7 +926,11 @@ public class PantallaInterfaz implements InterfazUsuario{
         }
     }
     @Override 
-    public void finalizar(){}
+    public void finalizar(){
+        sistema.guardarDatosEnArchivos();
+        JOptionPane.showMessageDialog(ventana, "Datos guardados. Cerrando el sistema. Hasta pronto!");
+        System.exit(0);
+    }
 
     public void opcionesInterfazGrafica(){}
 
