@@ -33,4 +33,14 @@ public abstract class  Servicio {
     public void setCosto(double costo){this.costo = costo;}
     public void setFecha(LocalDate fecha){this.fecha = fecha;}
 
+    @Override
+    public String toString() {
+        return "Codigo: " + codigo +
+            " | Tipo: " + tipo +
+            " | Descripcion: " + descripcion +
+            " | Costo base: " + costo +
+            " | Fecha: " + fecha +
+            " | Precio final (" + getClass().getSimpleName() + "): " + calcularPrecioServicio();
+    }
+
 }
