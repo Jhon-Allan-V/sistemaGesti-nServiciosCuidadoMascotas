@@ -48,7 +48,7 @@ public class PantallaInterfaz implements InterfazUsuario{
 
         botonClientes.addActionListener(e -> ventanaClientes());
         botonMascotas.addActionListener(e -> ventanaMascotas());
-        //botonServicios.addActionListener(e -> ventanaServicios());
+        botonServicios.addActionListener(e -> ventanaServicios());
         
 
         panel.add(titulo);
@@ -785,6 +785,138 @@ public class PantallaInterfaz implements InterfazUsuario{
         }
     }
 
+    //Servicios
+    private void ventanaServicios() {
+        JFrame ventanaServicios = new JFrame("Gestión de Servicios");
+        ventanaServicios.setSize(400, 300);
+        ventanaServicios.setLocationRelativeTo(ventana);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(4, 1, 10, 10));
+
+ 
+        JButton botonReservar = new JButton("Reservar servicio");
+        JButton botonCancelar = new JButton("Cancelar reserva");
+
+        botonReservar.addActionListener(e -> reservarServicio());
+        botonCancelar.addActionListener(e -> cancelarReserva());
+
+        panel.add(botonReservar);
+        panel.add(botonCancelar);
+
+        ventanaServicios.add(panel);
+        ventanaServicios.setVisible(true);
+    }
+
+    private void cancelarReserva() {
+        String idTexto = JOptionPane.showInputDialog(
+            ventana,
+            "Ingrese el ID de la reserva:"
+        );
+
+        if (idTexto == null || idTexto.trim().isEmpty()) return;
+
+        try {
+            int idReserva = Integer.parseInt(idTexto);
+
+            sistema.cancelarServicio(idReserva);
+
+            JOptionPane.showMessageDialog(
+                ventana,
+                "Reserva cancelada correctamente."
+            );
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                ventana,
+                "El ID de la reserva debe ser un número.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                ventana,
+                "No se pudo cancelar la reserva: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    private void reservarServicio() {
+        String rutCliente = JOptionPane.showInputDialog(
+            ventana,
+            "Ingrese el RUT del cliente:"
+        );
+
+        if (rutCliente == null || rutCliente.trim().isEmpty()) return;
+
+        if (!sistema.HayCliente(rutCliente)) {
+            JOptionPane.showMessageDialog(
+                ventana,
+                "No existe un cliente con ese RUT.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        String idMascota = JOptionPane.showInputDialog(
+            ventana,
+            "Ingrese el ID de la mascota:"
+        );
+
+        if (idMascota == null || idMascota.trim().isEmpty()) return;
+
+        Mascota mascota = sistema.buscarMascota(rutCliente, idMascota);
+
+        if (mascota == null) {
+            JOptionPane.showMessageDialog(
+                ventana,
+                "No existe una mascota con ese ID para este cliente.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        String codigoTexto = JOptionPane.showInputDialog(
+            ventana,
+            "Ingrese el código del servicio:"
+        );
+
+        if (codigoTexto == null || codigoTexto.trim().isEmpty()) return;
+
+        try {
+            int codigoServicio = Integer.parseInt(codigoTexto);
+
+            sistema.reservarServicio(
+                rutCliente,
+                idMascota,
+                codigoServicio
+            );
+
+            JOptionPane.showMessageDialog(
+                ventana,
+                "Servicio reservado correctamente."
+            );
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                ventana,
+                "El código del servicio debe ser un número.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                ventana,
+                "No se pudo realizar la reserva: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
     @Override 
     public void finalizar(){}
 
