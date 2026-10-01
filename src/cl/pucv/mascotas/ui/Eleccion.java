@@ -37,7 +37,8 @@ public class Eleccion {
         if (opcion == 2){
             this.interfaz = new PantallaInterfaz(this.sistema);
         } else {
-            this.interfaz = new ConsolaTerminal(this.sistema);
+            // Se reutiliza el mismo Scanner para no perder datos del buffer de System.in
+            this.interfaz = new ConsolaTerminal(this.sistema, eleccion);
         }
         
         this.interfaz.iniciar();
