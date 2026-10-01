@@ -38,5 +38,15 @@ public class Reserva {
     public void setCodigoServicio(int codigoServicio){this.codigoServicio = codigoServicio;}
     public void setFechaReserva(LocalDate fechaReserva){this.fechaReserva = fechaReserva;}
     public void setEstado(String estado){this.estado = estado;}
-    
+
+    @Override
+    public String toString() {
+        return "Reserva #" + idReserva +
+            " | Cliente: " + rutCliente +
+            " | Mascota: " + idMascota +
+            " | Servicio: " + codigoServicio +
+            " | Fecha: " + fechaReserva +
+            " | Estado: " + estado;
+    }
+
 }
