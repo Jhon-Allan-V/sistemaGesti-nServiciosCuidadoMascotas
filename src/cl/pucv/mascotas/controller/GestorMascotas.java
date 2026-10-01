@@ -106,4 +106,39 @@ public class GestorMascotas
         
         return id;
     }
+
+    // SIA-11: carga en bloque de mascotas leidas desde el archivo CSV al iniciar la aplicacion.
+    // Cada mascota tiene su id y su rutDueno. solo hay que asociarla a su cliente
+    // y dejar el contador id listo para que las nuevas mascotas no choquen con las ya cargadas.
+    public void cargarMascotas(List<Mascota> listaMascotas)
+    {
+        for (Mascota mascota : listaMascotas)
+        {
+            Cliente cliente = gestorClientes.obtenerCliente(mascota.getRutDueno());
+
+            if (cliente != null)
+            {
+                cliente.agregarMascota(mascota);
+            }
+
+            actualizarContadorId(mascota.getId());
+        }
+    }
+
+    private void actualizarContadorId(String id)
+    {
+        try
+        {
+            int numero = Integer.parseInt(id.substring(1));
+
+            if (numero >= ID)
+            {
+                ID = numero + 1;
+            }
+        }
+        catch (Exception e)
+        {
+            // Id con formato inesperado: se ignora para efectos del contador.
+        }
+    }
 }
