@@ -87,4 +87,26 @@ public class GestorServicios
         
         return id; 
     }
+
+    // SIA-11: carga en bloque (batch) de servicios y reservas leidos desde CSV al iniciar la aplicacion.
+    public void cargarServicios(List<Servicio> listaServicios)
+    {
+        for (Servicio servicio : listaServicios)
+        {
+            servicios.put(servicio.getCodigo(), servicio);
+        }
+    }
+
+    public void cargarReservas(List<Reserva> listaReservas)
+    {
+        for (Reserva reserva : listaReservas)
+        {
+            reservas.put(reserva.getIdReserva(), reserva);
+
+            if (reserva.getIdReserva() >= IDReserva)
+            {
+                IDReserva = reserva.getIdReserva() + 1;
+            }
+        }
+    }
 }
