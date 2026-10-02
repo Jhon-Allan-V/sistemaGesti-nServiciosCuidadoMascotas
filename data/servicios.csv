@@ -1,0 +1,4 @@
+codigo,tipo,descripcion,costo,fecha,subtipo,dato1,dato2,dato3
+1,Peluqueria,Baño y corte estandar,12000.0,2026-10-01,PELUQUERIA,Corte estandar,45,
+2,Veterinaria,Control general,15000.0,2026-10-01,VETERINARIA,Dra. Ana Rojas,Medicina general,LIC-4521
+3,Veterinaria,asd,123.0,2026-10-01,VETERINARIA,asd,asd,asd
