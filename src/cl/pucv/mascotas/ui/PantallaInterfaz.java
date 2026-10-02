@@ -776,7 +776,7 @@ public class PantallaInterfaz implements InterfazUsuario{
         ventanaServicios.setLocationRelativeTo(ventana);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(7, 1, 10, 10));
+        panel.setLayout(new GridLayout(8, 1, 10, 10));
 
         JButton botonPeluqueria = new JButton("Registrar servicio de Peluquería");
         JButton botonVeterinaria = new JButton("Registrar servicio de Veterinaria");
@@ -784,6 +784,7 @@ public class PantallaInterfaz implements InterfazUsuario{
         JButton botonReservar = new JButton("Reservar servicio");
         JButton botonCancelar = new JButton("Cancelar reserva");
         JButton botonListarReservas = new JButton("Listar reservas");
+        JButton botonTotalReservas = new JButton("Calcular total de reservas activas");
         JButton botonVolver = new JButton("Volver");
 
         botonPeluqueria.addActionListener(e -> registrarServicioPeluqueria());
@@ -792,6 +793,7 @@ public class PantallaInterfaz implements InterfazUsuario{
         botonReservar.addActionListener(e -> reservarServicio());
         botonCancelar.addActionListener(e -> cancelarReserva());
         botonListarReservas.addActionListener(e -> listarReservas());
+        botonTotalReservas.addActionListener(e -> calcularTotalReservasActivas());
         botonVolver.addActionListener(e -> ventanaServicios.dispose());
 
         panel.add(botonPeluqueria);
@@ -800,6 +802,7 @@ public class PantallaInterfaz implements InterfazUsuario{
         panel.add(botonReservar);
         panel.add(botonCancelar);
         panel.add(botonListarReservas);
+        panel.add(botonTotalReservas);
         panel.add(botonVolver);
 
         ventanaServicios.add(panel);
@@ -1116,6 +1119,29 @@ public class PantallaInterfaz implements InterfazUsuario{
                 JOptionPane.ERROR_MESSAGE
             );
         }
+    }
+
+    private void calcularTotalReservasActivas()
+    {
+        String rut = JOptionPane.showInputDialog(
+            ventana,
+            "RUT del cliente:"
+        );
+
+        if (rut == null || rut.trim().isEmpty())
+        {
+            return;
+        }
+
+        double total = sistema.calcularTotalReservasActivas(rut);
+
+        JOptionPane.showMessageDialog(
+            ventana,
+            "Total de reservas activas: $" +
+            String.format("%.0f", total),
+            "Total de reservas",
+            JOptionPane.INFORMATION_MESSAGE
+        );
     }
     @Override 
     public void finalizar(){

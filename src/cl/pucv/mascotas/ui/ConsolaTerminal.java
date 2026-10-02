@@ -338,6 +338,7 @@ public class ConsolaTerminal implements InterfazUsuario{
             System.out.println("4. Reservar servicio");
             System.out.println("5. Cancelar reserva");
             System.out.println("6. Listar reservas");
+            System.out.println("7. Calcular total de reservas activas de un cliente");
             System.out.println("0. Volver");
 
             int opcion = leerEntero("Ingrese opcion: ");
@@ -349,6 +350,7 @@ public class ConsolaTerminal implements InterfazUsuario{
                 case 4: reservarServicio(); break;
                 case 5: cancelarReserva(); break;
                 case 6: listarReservas(); break;
+                case 7: calcularTotalReservasActivas(); break;
                 case 0: volver = true; break;
                 default: System.out.println("Opcion invalida.");
             }
@@ -442,6 +444,18 @@ public class ConsolaTerminal implements InterfazUsuario{
         int idReserva = leerEntero("ID de la reserva a cancelar: ");
         sistema.cancelarServicio(idReserva);
         System.out.println("Reserva cancelada (si existia).");
+    }
+
+    private void calcularTotalReservasActivas()
+    {
+        String rut = leerTexto("RUT del cliente: ");
+
+        double total = sistema.calcularTotalReservasActivas(rut);
+
+        System.out.println(
+            "Total de reservas activas del cliente: $" +
+            String.format("%.0f", total)
+        );
     }
 
     

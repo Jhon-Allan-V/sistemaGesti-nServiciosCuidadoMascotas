@@ -109,4 +109,25 @@ public class GestorServicios
             }
         }
     }
+
+    public double calcularTotalReservasActivas(String rutCliente)
+    {
+        double total = 0;
+
+        for (Reserva reserva : reservas.values())
+        {
+            if (reserva.getRutCliente().equalsIgnoreCase(rutCliente)
+                    && reserva.getEstado().equalsIgnoreCase("ACTIVA"))
+            {
+                Servicio servicio = servicios.get(reserva.getCodigoServicio());
+
+                if (servicio != null)
+                {
+                    total += servicio.calcularPrecioServicio();
+                }
+            }
+        }
+
+        return total;
+    }
 }

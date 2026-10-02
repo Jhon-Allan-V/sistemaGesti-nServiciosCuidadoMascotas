@@ -231,4 +231,9 @@ public class SistemaFacade
     {
         return gestorServicios.listaReservas();
     }
+
+    public double calcularTotalReservasActivas(String rutCliente)
+    {
+        return gestorServicios.calcularTotalReservasActivas(rutCliente);
+    }
 }
