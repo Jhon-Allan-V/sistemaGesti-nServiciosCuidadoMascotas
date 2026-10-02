@@ -19,7 +19,7 @@ public class Peluqueria extends Servicio {
 
     @Override
     public float calcularPrecioServicio() {
-        return 0;
+        return (float) getCosto();
     }
 
     public void realizarCorte() {

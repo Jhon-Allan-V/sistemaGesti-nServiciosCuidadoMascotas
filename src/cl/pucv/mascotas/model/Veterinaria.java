@@ -20,7 +20,7 @@ public class Veterinaria extends Servicio {
 
     @Override
     public float calcularPrecioServicio() {
-        return 1.2f;
+        return (float) (getCosto() * 1.20);
     }
 
     public void atenderMascota() {
