@@ -1,8 +1,6 @@
 package cl.pucv.mascotas.model;
 
-import cl.pucv.mascotas.model.Mascota;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +15,7 @@ public class Cliente {
     
     private Map<String, Mascota> mascotas;
 
-    //constructores + sobrecarga
+    //constructores
     public Cliente(String rut, String nombre){
         this.rut = rut;
         this.nombre = nombre;
@@ -61,7 +59,6 @@ public class Cliente {
     public String getCorreoCliente(){return correo;}
     public String getTelefono(){return telefono;}
     public String getDireccion(){return direccion;}
-    public Map<String, Mascota> getMascotas() {return mascotas;}
 
     //setters
     public void setRutCliente(String rut){this.rut = rut;}
@@ -69,7 +66,6 @@ public class Cliente {
     public void setCorreoCliente(String correo){this.correo = correo;}
     public void setTelefono(String telefono){this.telefono = telefono;}
     public void setDireccion(String direccion){this.direccion = direccion;}
-    public void setMascotas(Map<String, Mascota> mascotas) {this.mascotas = mascotas;}
     
     // Manejo de mascotas por cliente
     
