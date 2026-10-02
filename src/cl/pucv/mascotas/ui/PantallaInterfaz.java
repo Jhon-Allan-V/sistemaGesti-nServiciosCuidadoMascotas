@@ -3,6 +3,8 @@ package cl.pucv.mascotas.ui;
 import cl.pucv.mascotas.facade.SistemaFacade;
 import cl.pucv.mascotas.model.Cliente;
 import cl.pucv.mascotas.model.Mascota;
+import cl.pucv.mascotas.model.Servicio;
+import cl.pucv.mascotas.model.Reserva;
 
 import javax.swing.*;
 import java.awt.*;
@@ -770,26 +772,241 @@ public class PantallaInterfaz implements InterfazUsuario{
     //Servicios
     private void ventanaServicios() {
         JFrame ventanaServicios = new JFrame("Gestión de Servicios");
-        ventanaServicios.setSize(400, 300);
+        ventanaServicios.setSize(400, 450);
         ventanaServicios.setLocationRelativeTo(ventana);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1, 10, 10));
+        panel.setLayout(new GridLayout(7, 1, 10, 10));
 
- 
+        JButton botonPeluqueria = new JButton("Registrar servicio de Peluquería");
+        JButton botonVeterinaria = new JButton("Registrar servicio de Veterinaria");
+        JButton botonListarServicios = new JButton("Listar servicios");
         JButton botonReservar = new JButton("Reservar servicio");
         JButton botonCancelar = new JButton("Cancelar reserva");
+        JButton botonListarReservas = new JButton("Listar reservas");
+        JButton botonVolver = new JButton("Volver");
 
+        botonPeluqueria.addActionListener(e -> registrarServicioPeluqueria());
+        botonVeterinaria.addActionListener(e -> registrarServicioVeterinaria());
+        botonListarServicios.addActionListener(e -> listarServicios());
         botonReservar.addActionListener(e -> reservarServicio());
         botonCancelar.addActionListener(e -> cancelarReserva());
+        botonListarReservas.addActionListener(e -> listarReservas());
+        botonVolver.addActionListener(e -> ventanaServicios.dispose());
 
+        panel.add(botonPeluqueria);
+        panel.add(botonVeterinaria);
+        panel.add(botonListarServicios);
         panel.add(botonReservar);
         panel.add(botonCancelar);
+        panel.add(botonListarReservas);
+        panel.add(botonVolver);
 
         ventanaServicios.add(panel);
         ventanaServicios.setVisible(true);
     }
 
+    private void registrarServicioPeluqueria() {
+        try {
+            String codigoTexto = JOptionPane.showInputDialog(
+                ventana,
+                "Código del servicio:"
+            );
+
+            if (codigoTexto == null || codigoTexto.trim().isEmpty()) return;
+
+            int codigo = Integer.parseInt(codigoTexto);
+
+            if (sistema.existeServicio(codigo)) {
+                JOptionPane.showMessageDialog(
+                    ventana,
+                    "Ya existe un servicio con ese código.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            String descripcion = JOptionPane.showInputDialog(
+                ventana,
+                "Descripción del servicio:"
+            );
+
+            if (descripcion == null || descripcion.trim().isEmpty()) return;
+
+            String costoTexto = JOptionPane.showInputDialog(
+                ventana,
+                "Costo del servicio:"
+            );
+
+            if (costoTexto == null || costoTexto.trim().isEmpty()) return;
+
+            double costo = Double.parseDouble(costoTexto);
+
+            String tipoCorte = JOptionPane.showInputDialog(
+                ventana,
+                "Tipo de corte:"
+            );
+
+            if (tipoCorte == null || tipoCorte.trim().isEmpty()) return;
+
+            String duracionTexto = JOptionPane.showInputDialog(
+                ventana,
+                "Duración del corte en minutos:"
+            );
+
+            if (duracionTexto == null || duracionTexto.trim().isEmpty()) return;
+
+            int duracion = Integer.parseInt(duracionTexto);
+
+            sistema.registrarServicioPeluqueria(
+                codigo,
+                descripcion,
+                costo,
+                tipoCorte,
+                duracion
+            );
+
+            JOptionPane.showMessageDialog(
+                ventana,
+                "Servicio de peluquería registrado correctamente."
+            );
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                ventana,
+                "Código, costo y duración deben ser valores numéricos.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    private void registrarServicioVeterinaria() {
+        try {
+            String codigoTexto = JOptionPane.showInputDialog(
+                ventana,
+                "Código del servicio:"
+            );
+
+            if (codigoTexto == null || codigoTexto.trim().isEmpty()) return;
+
+            int codigo = Integer.parseInt(codigoTexto);
+
+            if (sistema.existeServicio(codigo)) {
+                JOptionPane.showMessageDialog(
+                    ventana,
+                    "Ya existe un servicio con ese código.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            String descripcion = JOptionPane.showInputDialog(
+                ventana,
+                "Descripción del servicio:"
+            );
+
+            if (descripcion == null || descripcion.trim().isEmpty()) return;
+
+            String costoTexto = JOptionPane.showInputDialog(
+                ventana,
+                "Costo del servicio:"
+            );
+
+            if (costoTexto == null || costoTexto.trim().isEmpty()) return;
+
+            double costo = Double.parseDouble(costoTexto);
+
+            String nombreVeterinario = JOptionPane.showInputDialog(
+                ventana,
+                "Nombre del veterinario:"
+            );
+
+            if (nombreVeterinario == null || nombreVeterinario.trim().isEmpty()) return;
+
+            String especialidad = JOptionPane.showInputDialog(
+                ventana,
+                "Especialidad:"
+            );
+
+            if (especialidad == null || especialidad.trim().isEmpty()) return;
+
+            String licencia = JOptionPane.showInputDialog(
+                ventana,
+                "Licencia:"
+            );
+
+            if (licencia == null || licencia.trim().isEmpty()) return;
+
+            sistema.registrarServicioVeterinaria(
+                codigo,
+                descripcion,
+                costo,
+                nombreVeterinario,
+                especialidad,
+                licencia
+            );
+
+            JOptionPane.showMessageDialog(
+                ventana,
+                "Servicio veterinario registrado correctamente."
+            );
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                ventana,
+                "Código y costo deben ser valores numéricos.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    private void listarServicios() {
+        StringBuilder texto = new StringBuilder();
+
+        for (Servicio servicio : sistema.listarServicios()) {
+            texto.append(servicio.toString()).append("\n");
+        }
+
+        if (texto.length() == 0) {
+            texto.append("No hay servicios registrados.");
+        }
+
+        JTextArea area = new JTextArea(texto.toString());
+        area.setEditable(false);
+
+        JOptionPane.showMessageDialog(
+            ventana,
+            new JScrollPane(area),
+            "Listado de Servicios",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    private void listarReservas() {
+        StringBuilder texto = new StringBuilder();
+
+        for (Reserva reserva : sistema.listarReservas()) {
+            texto.append(reserva.toString()).append("\n");
+        }
+
+        if (texto.length() == 0) {
+            texto.append("No hay reservas registradas.");
+        }
+
+        JTextArea area = new JTextArea(texto.toString());
+        area.setEditable(false);
+
+        JOptionPane.showMessageDialog(
+            ventana,
+            new JScrollPane(area),
+            "Listado de Reservas",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+    }
     private void cancelarReserva() {
         String idTexto = JOptionPane.showInputDialog(
             ventana,
@@ -824,6 +1041,7 @@ public class PantallaInterfaz implements InterfazUsuario{
             );
         }
     }
+
 
     private void reservarServicio() {
         String rutCliente = JOptionPane.showInputDialog(
