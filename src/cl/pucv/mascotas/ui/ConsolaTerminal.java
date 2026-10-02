@@ -193,9 +193,10 @@ public class ConsolaTerminal implements InterfazUsuario{
             System.out.println("\n--- GESTION DE MASCOTAS ---");
             System.out.println("1. Registrar mascota");
             System.out.println("2. Listar todas las mascotas");
-            System.out.println("3. Listar mascotas de un cliente");
-            System.out.println("4. Modificar mascota");
-            System.out.println("5. Eliminar mascota");
+            System.out.println("3. Buscar mascota");
+            System.out.println("4. Listar mascotas de un cliente");
+            System.out.println("5. Modificar mascota");
+            System.out.println("6. Eliminar mascota");
             System.out.println("0. Volver");
 
             int opcion = leerEntero("Ingrese opcion: ");
@@ -203,9 +204,10 @@ public class ConsolaTerminal implements InterfazUsuario{
             switch(opcion){
                 case 1: registrarMascota(); break;
                 case 2: listarTodasMascotas(); break;
-                case 3: listarMascotasCliente(); break;
-                case 4: modificarMascota(); break;
-                case 5: eliminarMascota(); break;
+                case 3: buscarMascota(); break;
+                case 4: listarMascotasCliente(); break;
+                case 5: modificarMascota(); break;
+                case 6: eliminarMascota(); break;
                 case 0: volver = true; break;
                 default: System.out.println("Opcion invalida.");
             }
@@ -238,6 +240,28 @@ public class ConsolaTerminal implements InterfazUsuario{
 
     private void listarTodasMascotas(){
         imprimirMascotas(sistema.listarMascotas());
+    }
+
+    private void buscarMascota(){
+        String rutDueno = leerTexto("RUT del dueno: ");
+        String id = leerTexto("ID de la mascota: ");
+
+        Mascota mascota = sistema.buscarMascota(rutDueno, id);
+
+        if(mascota == null){
+            System.out.println("No se encontro esa mascota para ese cliente.");
+            return;
+        }
+
+        System.out.println("\n--- MASCOTA ENCONTRADA ---");
+        System.out.println("ID: " + mascota.getId());
+        System.out.println("Dueno: " + mascota.getRutDueno());
+        System.out.println("Nombre: " + mascota.getNombre());
+        System.out.println("Raza: " + mascota.getRaza());
+        System.out.println("Edad: " + mascota.getEdad());
+        System.out.println("Peso: " + mascota.getPeso());
+        System.out.println("Altura: " + mascota.getAltura());
+        System.out.println("Trato especial: " + valorOVacio(mascota.getTratoEspecial()));
     }
 
     private void listarMascotasCliente(){
