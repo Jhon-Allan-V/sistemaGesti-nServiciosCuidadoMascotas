@@ -329,10 +329,11 @@ public class PantallaInterfaz implements InterfazUsuario{
         ventanaMascotas.setLocationRelativeTo(ventana);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 1, 10, 10));
+        panel.setLayout(new GridLayout(7, 1, 10, 10));
 
         JButton botonAgregar = new JButton("Agregar mascota");
         JButton botonListar = new JButton("Listar mascotas");
+        JButton botonListarCliente = new JButton("Listar mascotas de un cliente");
         JButton botonBuscar = new JButton("Buscar mascota");
         JButton botonModificar = new JButton("Modificar mascota");
         JButton botonEliminar = new JButton("Eliminar mascota");
@@ -340,6 +341,7 @@ public class PantallaInterfaz implements InterfazUsuario{
 
         botonAgregar.addActionListener(e -> agregarMascota());
         botonListar.addActionListener(e -> listarMascotas());
+        botonListarCliente.addActionListener(e -> listarMascotasCliente());
         botonBuscar.addActionListener(e -> buscarMascota());
         botonModificar.addActionListener(e -> modificarMascota());
         botonEliminar.addActionListener(e -> eliminarMascota());
@@ -347,6 +349,7 @@ public class PantallaInterfaz implements InterfazUsuario{
 
         panel.add(botonAgregar);
         panel.add(botonListar);
+        panel.add(botonListarCliente);
         panel.add(botonBuscar);
         panel.add(botonModificar);
         panel.add(botonEliminar);
@@ -499,6 +502,54 @@ public class PantallaInterfaz implements InterfazUsuario{
             texto.toString(),
             "Lista de mascotas",
             JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    private void listarMascotasCliente() {
+
+        String rutCliente = JOptionPane.showInputDialog(
+                ventana,
+                "Ingrese el RUT del cliente:"
+        );
+
+        if (rutCliente == null || rutCliente.trim().isEmpty()) {
+            return;
+        }
+
+        if (!sistema.HayCliente(rutCliente)) {
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "No existe un cliente con ese RUT.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        java.util.List<Mascota> mascotas =
+                sistema.listarMascotasCliente(rutCliente);
+
+        if (mascotas.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "El cliente no tiene mascotas registradas.",
+                    "Mascotas del cliente",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
+
+        StringBuilder texto = new StringBuilder();
+
+        for (Mascota mascota : mascotas) {
+            texto.append(mascota.toString()).append("\n");
+        }
+
+        JOptionPane.showMessageDialog(
+                ventana,
+                texto.toString(),
+                "Mascotas del cliente",
+                JOptionPane.INFORMATION_MESSAGE
         );
     }
 

@@ -110,6 +110,7 @@ public class SistemaFacade
        
         registrarServicioPeluqueria(1, "Baño y corte estandar", 12000, "Corte estandar", 45);
         registrarServicioVeterinaria(2, "Control general", 15000, "Dra. Ana Rojas", "Medicina general", "LIC-4521");
+
     }
     
     // Menu Usuario
