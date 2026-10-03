@@ -110,12 +110,14 @@ public class GestorServicios
         }
     }
 
+    // Calcula el total de las reservas activas asociadas a un cliente.
     public double calcularTotalReservasActivas(String rutCliente)
     {
         double total = 0;
 
         for (Reserva reserva : reservas.values())
         {
+            // Solo se consideran las reservas activas del cliente indicado.
             if (reserva.getRutCliente().equalsIgnoreCase(rutCliente)
                     && reserva.getEstado().equalsIgnoreCase("ACTIVA"))
             {

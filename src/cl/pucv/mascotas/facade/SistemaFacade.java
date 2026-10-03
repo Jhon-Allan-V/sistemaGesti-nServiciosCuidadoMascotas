@@ -98,6 +98,7 @@ public class SistemaFacade
         }
     }
 
+    // Carga datos de ejemplo cuando no existe información persistida.
     private void cargarDatosIniciales()
     {
         registrarCliente("11111111-1", "Juan Perez");

@@ -99,6 +99,7 @@ public class GestorMascotas
         }
     }
     
+    //Genera un identificador unico para cada nueva mascota
     private String generarId()
     {
         String id = "M" + ID;
@@ -125,6 +126,7 @@ public class GestorMascotas
         }
     }
 
+    // Ajusta el contador para evitar repetir identificadores existentes.
     private void actualizarContadorId(String id)
     {
         try

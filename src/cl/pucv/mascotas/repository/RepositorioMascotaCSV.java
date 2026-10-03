@@ -101,7 +101,8 @@ public class RepositorioMascotaCSV
     @Override
     public List<Mascota> listarTodos()
             throws PersistenciaException {
-
+        
+        // Se cargan las mascotas almacenadas desde el archivo CSV.
         List<String> lineas =
                 CSVUtil.leerLineas(
                         rutaArchivo,
@@ -110,7 +111,8 @@ public class RepositorioMascotaCSV
 
         List<Mascota> mascotas =
                 new ArrayList<>();
-
+        
+        // Se reconstruye cada mascota a partir de los datos leídos del archivo.
         for (int i = 1; i < lineas.size(); i++) {
 
             String linea =
@@ -182,6 +184,7 @@ public class RepositorioMascotaCSV
             );
         }
 
+        // Se escriben todas las mascotas en el archivo CSV para mantener la persistencia.
         CSVUtil.escribirLineas(
                 rutaArchivo,
                 CABECERA,

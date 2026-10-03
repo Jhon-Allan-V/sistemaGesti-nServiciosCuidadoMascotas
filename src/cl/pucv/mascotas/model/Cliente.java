@@ -69,6 +69,7 @@ public class Cliente {
     
     // Manejo de mascotas por cliente
     
+    // Cada cliente mantiene su propia colección de mascotas asociadas.
     public void agregarMascota(Mascota mascota)
     {
         mascotas.put(mascota.getId(), mascota);

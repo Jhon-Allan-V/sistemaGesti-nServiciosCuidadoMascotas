@@ -100,6 +100,7 @@ public class RepositorioClienteCSV
     public List<Cliente> listarTodos()
             throws PersistenciaException {
 
+        // Se cargan los clientes almacenados desde el archivo CSV.
         List<String> lineas =
                 CSVUtil.leerLineas(
                         rutaArchivo,
@@ -108,7 +109,8 @@ public class RepositorioClienteCSV
 
         List<Cliente> clientes =
                 new ArrayList<>();
-
+        
+        // Se reconstruye cada cliente a partir de los datos leídos del archivo.
         for (int i = 1; i < lineas.size(); i++) {
 
             String linea =
@@ -143,6 +145,7 @@ public class RepositorioClienteCSV
         return clientes;
     }
 
+
     public void guardarTodos(List<Cliente> clientes)
             throws PersistenciaException {
 
@@ -162,6 +165,7 @@ public class RepositorioClienteCSV
             );
         }
 
+        // Se escriben todos los clientes en el archivo CSV para mantener la persistencia.
         CSVUtil.escribirLineas(
                 rutaArchivo,
                 CABECERA,
