@@ -1,102 +1,290 @@
-# Sistema de Gestión de Servicios de Cuidado de Mascotas (SIA) - Arquitectura v2
+# Sistema de Gestión de Servicios de Cuidado de Mascotas
 
-Este repositorio contiene la implementación del **Sistema de Información (SIA)** diseñado para la gestión integral de un centro de cuidado de mascotas (veterinaria, peluquería y hotel canino). El software ha sido estructurado bajo los principios de la Programación Orientada a Objetos (POO), aplicando patrones de diseño de software avanzados para lograr una arquitectura limpia, modular, altamente desacoplada y compatible con **JDK 8 (Java 1.8)**.
+Este repositorio contiene la implementación de un sistema para la gestión de servicios de cuidado de mascotas.
+
+El sistema permite administrar clientes, mascotas, servicios de peluquería y veterinaria, además de realizar y cancelar reservas.
+
+El proyecto fue desarrollado en Java aplicando conceptos de Programación Orientada a Objetos, colecciones, herencia, sobrecarga, sobreescritura, manejo de excepciones y persistencia de datos mediante archivos CSV.
+
+El programa puede utilizarse mediante consola o mediante una interfaz gráfica.
 
 ---
 
-## 📂 Estructura de Directorios y Paquetes
+## 💻 Requisitos
 
-La arquitectura de este sistema de información se divide en capas con responsabilidades bien delimitadas, garantizando un código ordenado y escalable:
+- JDK 8 o superior.
+- Visual Studio Code, NetBeans, Eclipse o cualquier IDE compatible con Java.
+- Git, en caso de querer clonar el repositorio.
+
+---
+
+## 🛠️ Instalación
+
+Clonar el repositorio:
+
+```bash
+git clone https://github.com/Jhon-Allan-V/sistemaGesti-nServiciosCuidadoMascotas.git
+```
+
+Luego abrir la carpeta del proyecto en el IDE de preferencia.
+
+---
+
+## ⚡ Ejecución
+
+Ejecutar la clase:
+
+```text
+src/cl/pucv/mascotas/Main.java
+```
+
+Al iniciar el programa, el usuario puede elegir el modo de ejecución:
+
+```text
+1. Modo Consola o Terminal
+2. Modo Ventana o Interfaz
+```
+
+Ambas opciones permiten utilizar las principales funciones del sistema.
+
+---
+
+## 📝 Funcionalidades principales
+
+El sistema permite:
+
+- Registrar, listar, buscar, modificar y eliminar clientes.
+- Registrar, listar, buscar, modificar y eliminar mascotas.
+- Asociar mascotas a sus respectivos dueños.
+- Registrar servicios de peluquería.
+- Registrar servicios de veterinaria.
+- Listar servicios disponibles.
+- Realizar reservas de servicios.
+- Cancelar reservas.
+- Listar reservas.
+- Calcular el total de reservas activas de un cliente.
+- Guardar y cargar información mediante archivos CSV.
+- Utilizar el sistema mediante consola o interfaz gráfica.
+
+---
+
+## 📂 Estructura del proyecto
+
+El proyecto está organizado en paquetes según la responsabilidad de cada clase.
 
 ```text
 src/
 └── cl/
     └── pucv/
         └── mascotas/
-            ├── Main.java                                 # Punto de entrada mínimo de la aplicación
-            ├── Aplicacion.java                           # Composition Root (Orquestador e iniciador global)
+            ├── Main.java
+            ├── Aplicacion.java
             │
             ├── config/
-            │   └── InformacionLocal.java                # Atributos del local físico (dirección, fono, etc.)
+            │   └── InformacionLocal.java
             │
             ├── ui/
-            │   ├── InterfazUsuario.java                 # Interfaz polimórfica común para motores de UI
-            │   ├── ConsolaTerminal.java                 # Implementación para interfaz de consola (Scanner)
-            │   ├── PantallaInterfaz.java                 # Implementación para interfaz gráfica (GUI Swing)
-            │   └── Eleccion.java                        # Lógica de decisión del modo de ejecución de UI
+            │   ├── InterfazUsuario.java
+            │   ├── ConsolaTerminal.java
+            │   ├── PantallaInterfaz.java
+            │   └── Eleccion.java
             │
             ├── facade/
-            │   └── SistemaFacade.java                   # Patrón Facade: Orquestador y simplificador del sistema
+            │   └── SistemaFacade.java
             │
             ├── controller/
-            │   ├── GestorClientes.java                  # Lógica de negocio y CRUD del mapa de Clientes
-            │   ├── GestorMascotas.java                  # Lógica de negocio y CRUD de Mascotas asociadas
-            │   └── GestorServicios.java                 # Gestión de reservas, citas e historial de servicios
+            │   ├── GestorClientes.java
+            │   ├── GestorMascotas.java
+            │   └── GestorServicios.java
             │
             ├── model/
-            │   ├── Cliente.java                         # Entidad de dominio Cliente (atributos privados)
-            │   ├── Mascota.java                         # Entidad de dominio Mascota (id, rutDueno)
-            │   ├── Reserva.java                         # Entidad relacional para el agendamiento de citas
-            │   ├── Servicio.java                        # Clase abstracta base de servicios del local
-            │   ├── Peluqueria.java                      # Subclase con tarifas y servicios de estética
-            │   └── Veterinaria.java                     # Subclase con lógica de atención médica
+            │   ├── Cliente.java
+            │   ├── Mascota.java
+            │   ├── Reserva.java
+            │   ├── Servicio.java
+            │   ├── Peluqueria.java
+            │   └── Veterinaria.java
             │
             ├── repository/
-            │   ├── Repositorio.java                     # Interfaz genérica <T, ID> para persistencia
-            │   ├── RepositorioClienteCSV.java           # Persistencia de clientes en archivos CSV
-            │   ├── RepositorioMascotaCSV.java           # Persistencia de mascotas en archivos CSV
-            │   └── RepositorioServicioCSV.java          # Persistencia de reservas en archivos CSV
+            │   ├── Repositorio.java
+            │   ├── RepositorioClienteCSV.java
+            │   ├── RepositorioMascotaCSV.java
+            │   └── RepositorioServicioCSV.java
             │
             └── exception/
-                ├── ClienteNoEncontradoException.java    # Excepción personalizada para el flujo de clientes
-                └── PersistenciaException.java           # Excepción personalizada para fallos de archivos
+                ├── ClienteNoEncontradoException.java
+                └── PersistenciaException.java
 ```
 
 ---
 
-## 🏛️ Descripción de Paquetes y Responsabilidades
+## 📦 Paquetes principales
 
-### 1. Paquete Raíz (`cl.pucv.mascotas`)
-Este paquete contiene los activadores globales del sistema:
-*   **`Main.java`:** Mantiene un punto de entrada limpio y enfocado, delegando la ejecución inmediatamente a la clase orquestadora.
-*   **`Aplicacion.java`:** Actúa como el **Composition Root**. Se encarga de instanciar e inyectar las dependencias del sistema (repositorios CSV, controladores y fachada) antes de iniciar la interfaz de usuario elegida.
+### `cl.pucv.mascotas`
 
-### 2. Configuración (`cl.pucv.mascotas.config`)
-*   **`InformacionLocal.java`:** Centraliza y encapsula los datos generales del establecimiento (nombre, dirección, fono, correo). Esto desacopla la información corporativa de la lógica gráfica o de terminal.
+Contiene las clases principales para iniciar el programa.
 
-### 3. Interfaz de Usuario (`cl.pucv.mascotas.ui`)
-Abstrae la capa de presentación aplicando polimorfismo puro:
-*   **`InterfazUsuario` (Interface):** Obliga a que cualquier interfaz cuente con un ciclo de vida definido (`iniciar`, `mostrarMenu`, `finalizar`).
-*   **`ConsolaTerminal` y `PantallaInterfaz`:** Hacen uso exclusivo de la fachada del sistema para interactuar con la lógica del negocio. Ninguna de estas vistas modifica colecciones ni escribe archivos directamente.
-*   **`Eleccion`:** Clase que decide dinámicamente qué interfaz inicializar basándose en la configuración o selección del usuario.
+- `Main.java`: punto de entrada de la aplicación.
+- `Aplicacion.java`: crea los objetos necesarios e inicia el sistema.
 
-### 4. Fachada (`cl.pucv.mascotas.facade`)
-*   **`SistemaFacade`:** Implementa el **Patrón de Diseño Facade (Fachada)**. Funciona como una interfaz simplificada y único punto de contacto entre la UI y los gestores de negocio complejos. Evita que la interfaz de usuario se acople directamente con múltiples controladores.
+### `cl.pucv.mascotas.ui`
 
-### 5. Controladores (`cl.pucv.mascotas.controller`)
-Contiene las clases de control operacional:
-*   **`GestorClientes`, `GestorMascotas` y `GestorServicios`:** Manejan las colecciones de datos en memoria e implementan las operaciones CRUD (crear, leer, actualizar, eliminar) aplicando las reglas operativas del negocio.
+Contiene las dos formas de utilizar el programa.
 
-### 6. Modelo (`cl.pucv.mascotas.model`)
-Representa el dominio puro del negocio (Entidades/POJOs):
-*   **`Cliente`, `Mascota` y `Reserva`:** Clases con variables privadas de datos, constructores, getters y setters.
-*   **`Servicio` (Clase Base Abstracta), `Peluqueria` y `Veterinaria` (Subclases):** Implementan el polimorfismo por sobreescritura del método `calcularPrecio()`, el cual se adapta de forma especializada según las tarifas, insumos y cargos de cada tipo de atención.
+- `InterfazUsuario`: define las operaciones básicas que debe tener una interfaz.
+- `ConsolaTerminal`: permite utilizar el sistema mediante consola.
+- `PantallaInterfaz`: contiene la interfaz gráfica.
+- `Eleccion`: permite seleccionar el modo de ejecución.
 
-### 7. Persistencia (`cl.pucv.mascotas.repository`)
-Desacopla el almacenamiento físico de la aplicación mediante el **Patrón Repository**:
-*   **`Repositorio<T, ID>` (Interfaz Genérica):** Define los métodos estándar de persistencia (`guardar`, `eliminar`, `buscarPorId`, `listarTodos`).
-*   **Implementaciones CSV:** Leen y escriben archivos de texto plano utilizando codificación estándar compatible con cargas masivas batch al inicio y cierres automáticos al apagar el software.
+### `cl.pucv.mascotas.facade`
 
-### 8. Excepciones (`cl.pucv.mascotas.exception`)
-*   **`ClienteNoEncontradoException` y `PersistenciaException`:** Excepciones personalizadas que heredan de `Exception` para capturar e informar de manera segura fallos específicos de entrada/salida o de búsqueda de datos, evitando cierres inesperados de la aplicación.
+- `SistemaFacade`: centraliza las operaciones utilizadas por las interfaces y comunica la interfaz con los gestores.
+
+### `cl.pucv.mascotas.controller`
+
+Contiene las clases encargadas de manejar las operaciones principales del sistema.
+
+- `GestorClientes`
+- `GestorMascotas`
+- `GestorServicios`
+
+Estas clases administran los datos en memoria y realizan las operaciones principales del sistema.
+
+### `cl.pucv.mascotas.model`
+
+Contiene las clases que representan los datos principales del sistema.
+
+- `Cliente`
+- `Mascota`
+- `Reserva`
+- `Servicio`
+- `Peluqueria`
+- `Veterinaria`
+
+`Servicio` es una clase abstracta y `Peluqueria` y `Veterinaria` sobrescriben el método `calcularPrecioServicio()`.
+
+### `cl.pucv.mascotas.repository`
+
+Contiene las clases encargadas de leer y guardar la información en archivos CSV.
+
+- `Repositorio`
+- `RepositorioClienteCSV`
+- `RepositorioMascotaCSV`
+- `RepositorioServicioCSV`
+
+### `cl.pucv.mascotas.exception`
+
+Contiene las excepciones personalizadas utilizadas por el sistema.
+
+- `ClienteNoEncontradoException`
+- `PersistenciaException`
 
 ---
 
-## 🛠️ Alineación con la Rúbrica de Evaluación (SIA)
+## 🧩 Conceptos implementados
 
-*   **Modularización y Encapsulamiento (SIA-3):** Estructura modular dividida en 8 paquetes. Atributos de todas las clases declarados como `private` con acceso exclusivo por *getters* y *setters*.
-*   **Colecciones Estructuradas (SIA-4):** Uso de la interfaz `Map` y su implementación `HashMap` en las capas controladoras. El enlace entre entidades se realiza de forma relacional (mediante llaves foráneas como `rutDueno` o `idMascota`) evitando acoplamientos rígidos en memoria.
-*   **Polimorfismo por Sobreescritura (SIA-6):** La jerarquía de `Servicio` utiliza herencia para sobreescribir el método de cálculo de precios en sus clases hijas.
-*   **Persistencia Batch en Texto (SIA-11):** Carga inicial de datos desde archivos CSV al arrancar y exportación automática al salir del sistema.
-*   **Interfaz Dual Consola/Ventanas (SIA-10):** Soporte dinámico para interactuar a través de consola o ventanas con Swing usando una interfaz de UI común.
-*   **Excepciones Propias (SIA-12):** Implementación de al menos 2 excepciones personalizadas controladas mediante bloques `try-catch`.
+### Colecciones
+
+El proyecto utiliza colecciones del Java Collections Framework.
+
+En `GestorClientes` se utiliza un `Map` para almacenar los clientes utilizando el RUT como clave.
+
+Además, cada objeto `Cliente` mantiene internamente otra colección:
+
+```java
+Map<String, Mascota>
+```
+
+De esta forma, cada cliente puede mantener asociadas sus propias mascotas.
+
+### Sobrecarga de métodos
+
+En `GestorMascotas` existen dos versiones del método `agregarMascota()`.
+
+Una permite registrar los datos básicos de una mascota y la otra permite agregar también información de trato especial.
+
+En `SistemaFacade` se utiliza el mismo principio mediante dos versiones de `registrarMascota()`.
+
+Esto permite registrar mascotas con o sin información adicional.
+
+### Sobreescritura de métodos
+
+La clase abstracta `Servicio` define el método `calcularPrecioServicio()`.
+
+Las clases `Peluqueria` y `Veterinaria` sobrescriben este método.
+
+Esto permite utilizar la misma operación para distintos tipos de servicio y aplicar el cálculo correspondiente según el objeto.
+
+### Funcionalidad propia del negocio
+
+El sistema permite calcular el total de reservas activas de un cliente.
+
+Para realizar el cálculo:
+
+1. Se revisan las reservas registradas.
+2. Se seleccionan las que pertenecen al cliente indicado.
+3. Se consideran solamente las reservas con estado `ACTIVA`.
+4. Se obtiene el precio de los servicios asociados.
+5. Se calcula el total.
+
+Esta función permite conocer el valor de las atenciones que el cliente todavía mantiene vigentes.
+
+### Consola e interfaz gráfica
+
+El programa puede utilizarse de dos formas:
+
+- **Consola:** mediante menús y opciones numéricas.
+- **Interfaz gráfica:** mediante ventanas y botones.
+
+Ambos modos permiten acceder a las funciones principales del sistema.
+
+---
+
+## 💾 Persistencia de datos
+
+La información se almacena en la carpeta `data` mediante archivos CSV:
+
+```text
+data/
+├── clientes.csv
+├── mascotas.csv
+├── servicios.csv
+└── reservas.csv
+```
+
+Los datos se cargan cuando se inicia el programa y se guardan nuevamente cuando el usuario sale del sistema.
+
+---
+
+## 🔄 Control de versiones
+
+Durante el desarrollo se utilizó Git y GitHub para mantener un historial de los cambios realizados.
+
+Los commits se utilizaron para registrar:
+
+- Correcciones.
+- Nuevas funcionalidades.
+- Mejoras en la interfaz.
+- Persistencia de datos.
+- Gestión de servicios.
+- Gestión de mascotas.
+- Cambios en el cálculo de precios.
+
+---
+
+## ⚙️ Tecnologías utilizadas
+
+- Java
+- JDK 8
+- Java Swing
+- Java Collections Framework
+- Git
+- GitHub
+
+---
+
+## 👥 Integrantes
+
+- Roberto Osses Espinosa
+- Jhon Veliz Hansen
+- Diego Rojas Cartagena
